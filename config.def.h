@@ -739,6 +739,7 @@ static const char *xkb_layouts[]  = {
 
 /* key definitions */
 #define MODKEY Mod1Mask
+#define MODKEY2 Mod4Mask /* Second MOD Key:Windows (Super) Key */
 #if COMBO_PATCH && SWAPTAGS_PATCH && TAGOTHERMONITOR_PATCH
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      comboview,      {.ui = 1 << TAG} }, \
@@ -821,7 +822,7 @@ static const char *xkb_layouts[]  = {
 
 /* commands */
 #if !NODMENU_PATCH
-static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+static char dmenumon[4] = "0"; /* component of dmenucmd, manipulated in spawn() */
 #endif // NODMENU_PATCH
 static const char *dmenucmd[] = {
 	"dmenu_run",
@@ -838,7 +839,9 @@ static const char *dmenucmd[] = {
 	#endif // BAR_DMENUMATCHTOP_PATCH
 	NULL
 };
-static const char *termcmd[]  = { "st", NULL };
+static const char *termcmd[]  = { "qterminal", NULL }; /* LXQT's qterminal instead of the default stterm. Any other terminal emulator can also be used. */
+static const char *roficmd[100] = { "rofi", "-show", "combi", "-combi-modi", "window,drun,run,ssh", "-theme", "solarized", "-show-icons", NULL }; /* Rofi */
+static const char *shutcmd[] = { "shutdown", "now", NULL }; /* dwm shutdown button */
 
 #if BAR_STATUSCMD_PATCH
 #if BAR_DWMBLOCKS_PATCH
@@ -865,11 +868,14 @@ static Key on_empty_keys[] = {
 #endif // ON_EMPTY_KEYS_PATCH
 
 static Key keys[] = {
+  /* modifier                     key            function                argument */
+  { MODKEY2|ShiftMask,            XK_s,          spawn,                  {.v = shutcmd } }, /* dwm shutdown: MOD2 (Win) Shift s */
 	/* modifier                     key            function                argument */
 	#if KEYMODES_PATCH
 	{ MODKEY,                       XK_Escape,     setkeymode,             {.ui = COMMANDMODE} },
 	#endif // KEYMODES_PATCH
 	{ MODKEY,                       XK_p,          spawn,                  {.v = dmenucmd } },
+	{ MODKEY2,                      XK_Tab,        spawn,                  {.v = roficmd} }, /* Win+Tab: Rofi Launcher */
 	{ MODKEY|ShiftMask,             XK_Return,     spawn,                  {.v = termcmd } },
 	#if RIODRAW_PATCH
 	{ MODKEY|ControlMask,           XK_p,          riospawnsync,           {.v = dmenucmd } },
