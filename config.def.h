@@ -839,7 +839,7 @@ static const char *dmenucmd[] = {
 	#endif // BAR_DMENUMATCHTOP_PATCH
 	NULL
 };
-static const char *termcmd[]  = { "qterminal", NULL }; /* LXQT's qterminal instead of the default stterm. Any other terminal emulator can also be used. */
+static const char *termcmd[]  = { "xfce4-terminal", NULL }; /* XFCE's xfce4-terminal instead of the default stterm. Any other terminal emulator can also be used. */
 static const char *roficmd[100] = { "rofi", "-show", "combi", "-combi-modi", "window,drun,run,ssh", "-theme", "solarized", "-show-icons", NULL }; /* Rofi */
 static const char *shutcmd[] = { "shutdown", "now", NULL }; /* dwm shutdown button */
 
