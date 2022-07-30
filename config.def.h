@@ -1,5 +1,10 @@
 /* See LICENSE file for copyright and license details. */
 
+/* ALSA Volume Control. ALT + F11 | F12, and F9 to MUTE */
+static const char *volupcmd[] = { "amixer", "-q", "set", "Master", "5%+", "unmute", NULL };
+static const char *voldowncmd[] = { "amixer", "-q", "set", "Master", "5%-", "unmute", NULL };
+static const char *volmutecmd[] = { "amixer", "set", "Master", "toggle", NULL };
+
 /* appearance */
 #if ROUNDED_CORNERS_PATCH
 static const unsigned int borderpx       = 0;   /* border pixel of windows */
@@ -868,8 +873,15 @@ static Key on_empty_keys[] = {
 #endif // ON_EMPTY_KEYS_PATCH
 
 static Key keys[] = {
-  /* modifier                     key            function                argument */
-  { MODKEY2|ShiftMask,            XK_s,          spawn,                  {.v = shutcmd } }, /* dwm shutdown: MOD2 (Win) Shift s */
+	/* modifier                     key            function                argument */
+	                                                                                    /* ALSA Volume Control.
+	                                                                                     * ALT + F11 | F12,
+	                                                                                     * and F9 to MUTE */
+	{ MODKEY,                       XK_F12,        spawn,                  {.v = volupcmd   } },
+	{ MODKEY,                       XK_F11,        spawn,                  {.v = voldowncmd } },
+	{ MODKEY,                       XK_F9,         spawn,                  {.v = volmutecmd } },
+    /* modifier                     key            function                argument */
+    { MODKEY2|ShiftMask,            XK_s,          spawn,                  {.v = shutcmd } }, /* dwm shutdown: MOD2 (Win) Shift s */
 	/* modifier                     key            function                argument */
 	#if KEYMODES_PATCH
 	{ MODKEY,                       XK_Escape,     setkeymode,             {.ui = COMMANDMODE} },
